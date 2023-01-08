@@ -92,3 +92,35 @@ fun reverseIntArray(arr: Array<Int>) {
     }
     println(Arrays.toString(arr))    // O(1)
 }
+
+/*
+Question-8
+What is the runtime of the below code?
+M(n) = O(1)+M(n-1)
+-> O(n) (WTF?! search recursive funs big o notations again)
+*/
+fun factorial(n: Int): Int {    // M(n)
+    return when {
+        n < 0 -> -1    // O(1)
+        n == 1 || n == 0 -> 1    // O(1)
+        else -> n.times(factorial(n - 1))    // M(n-1)
+    }
+}
+
+/*
+Question-9
+What is the runtime of the below code?
+O(2^N)
+*/
+fun fibonacci(n: Int) {
+    for (i in 0 until n) {
+        fib(i)
+    }
+}
+fun fib(n: Int) : Int{
+    return when {
+        n < 0 -> -1
+        n == 0 || n == 1 -> n
+        else -> fib(n - 1).plus(fib(n - 2))
+    }
+}
