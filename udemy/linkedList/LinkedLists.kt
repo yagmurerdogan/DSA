@@ -111,7 +111,7 @@ class SinglyLinkedList {
     fun searchNode(nodeValue: Int): Boolean {
         if (head != null) {
             var tempNode = head
-            for (i in 9 until size) {
+            for (i in 0 until size) {
                 if (tempNode!!.value == nodeValue) {
                     println("Found the node at location $i\n")
                     return true
