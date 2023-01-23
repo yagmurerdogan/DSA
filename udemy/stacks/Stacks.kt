@@ -15,8 +15,6 @@ Stack is a data structure that stores items in a Last-In/First-Out manner (LIFO 
 -> With arrays
 - Easy to implement
 - Fixed size
-time comp -> O(1)
-space comp -> O(n)
 
 -> With Linked List
 - Variable size
@@ -38,10 +36,11 @@ class Stack(size: Int) {
     private var arr: IntArray
     private var topOfStack: Int
 
-    private var linkedList:
-
     init {
-        //creation
+        /*creation
+        time comp -> O(1)
+        space comp -> O(n)
+         */
         arr = IntArray(size)
         topOfStack = -1
         println("The stack is created with size of  -> $size")
@@ -273,8 +272,8 @@ class StackWithLinked {
         time comp -> O(1)
         space comp -> O(1)
     */
-    fun isEmpty() {
-        if (linkedList.head == null) true else false
+    fun isEmpty(): Boolean {
+        return if (linkedList.head == null) true else false
     }
 
     /* pop()
@@ -297,15 +296,7 @@ class StackWithLinked {
         space comp -> O(1)
     */
     fun peek(): Int {
-        var result = -1
-        if (isEmpty()) {
-            println("The Stack is Empty!")
-            return -1
-        } else {
-            result = linkedList.head.value
-            linkedList.deletionOfNode(0)
-        }
-        return result
+        return if (isEmpty()) { -1 } else { linkedList.head.value }
     }
 
     /* deleteStack()
@@ -331,3 +322,80 @@ fun stackExamples() {
     newStackWithLinked.deleteStack()
 
 }
+
+/*
+--- PROBLEMS ---
+ */
+
+// 1- Describe how you could use a single Array to implement three stacks
+
+/*
+Stack 1 -> [0],[1],[2]  -> [0, n/3)
+Stack 2 -> [3],[4],[5]  -> [n/3, 2n/3)
+Stack 3 -> [6],[7],[8]  -> [2n/3, n)
+ */
+
+class ThreeInOne(stackSize: Int) {
+    private val numberOfStacks = 3
+    private var stackCapacity = stackSize
+    private var values = intArrayOf(stackSize*numberOfStacks)
+    private var sizes = intArrayOf(numberOfStacks)
+
+    // isFull
+    private fun isFull(stackNum: Int): Boolean {
+        return sizes[stackNum] == stackCapacity
+    }
+
+    // isEmpty
+    private fun isEmpty(stackNum: Int): Boolean {
+        return sizes[stackNum] == 0
+    }
+
+    // indexOfTop - this is helper method for push, pop and peek methods
+    private fun indexOfTop(stackNum: Int): Int {
+        val offset = stackNum*stackCapacity
+        val size = sizes[stackNum]
+        return offset + size -1
+    }
+
+    // push
+    fun push(stackNum: Int, value: Int) {
+        if (isFull(stackNum)) {
+            println("The Stack is Full")
+        } else {
+            sizes[stackNum]++
+            values[indexOfTop(stackNum)] = value
+        }
+    }
+
+    // pop
+    fun pop(stackNum: Int): Int {
+        return if (isEmpty(stackNum)) {
+            println("The Stack is Full")
+            -1
+        } else {
+            val topIndex = indexOfTop(stackNum)
+            val value = values[topIndex]
+            values[topIndex] = 0
+            sizes[stackNum]--
+            value
+        }
+    }
+
+    // peek
+    fun peek(stackNum: Int): Int {
+        return if (isEmpty(stackNum)) {
+            println("The Stack is Full")
+            -1
+        } else {
+            values[indexOfTop(stackNum)]
+        }
+    }
+}
+
+/*
+2- Stack Minimum
+How would you design a stack which,
+in addition to push and pop, has a function min which returns the minimum element?
+Push, pop and min should all operate in O(1).
+ */
