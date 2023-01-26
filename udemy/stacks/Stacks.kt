@@ -33,35 +33,36 @@ Stack is a data structure that stores items in a Last-In/First-Out manner (LIFO 
 
 
 class Stack(size: Int) {
-    private var arr: IntArray
-    private var topOfStack: Int
+    var arr: IntArray?
+    var topOfStack: Int
 
+    /*creation
+    time comp -> O(1)
+    space comp -> O(n)
+     */
     init {
-        /*creation
-        time comp -> O(1)
-        space comp -> O(n)
-         */
         arr = IntArray(size)
         topOfStack = -1
         println("The stack is created with size of  -> $size")
     }
 
-
     /* isEmpty()
-        time comp -> O(1)
-        space comp -> O(1)
-     */
+    time comp -> O(1)
+    space comp -> O(1)
+    */
     fun isEmpty(): Boolean {
-        return if(topOfStack == -1) true else false
+        return if (topOfStack == -1) {
+            println("The stack is empty!")
+            true
+        } else false
     }
 
-
     /* isFull()
-        time comp -> O(1)
-        space comp -> O(1)
-     */
+    time comp -> O(1)
+    space comp -> O(1)
+ */
     fun isFull(): Boolean {
-        return if (topOfStack == arr.size-1) {
+        return if (topOfStack == arr!!.size - 1) {
             println("the stack is full")
             true
         } else false
@@ -73,9 +74,9 @@ class Stack(size: Int) {
     */
     fun push(value: Int) {
         if (isFull()) {
-            println("The Stack is full!")
+            println("The stack is full!")
         } else {
-            arr[topOfStack+1] = value
+            arr!![topOfStack + 1] = value
             topOfStack++
             println("The value is successfully inserted")
         }
@@ -86,12 +87,13 @@ class Stack(size: Int) {
         space comp -> O(1)
     */
     fun pop(): Int {
-        if (isEmpty()) {
+        return if (isEmpty()) {
             println("The stack is empty")
+            -1
         } else {
-            val topStack = arr[topOfStack]
+            val topStack = arr!![topOfStack]
             topOfStack--
-            return topStack
+            topStack
         }
     }
 
@@ -100,10 +102,11 @@ class Stack(size: Int) {
         space comp -> O(1)
     */
     fun peek(): Int {
-        if (isEmpty()) {
-            println("The Stack is empty!")
+        return if (isEmpty()) {
+            println("The stack is empty!")
+            -1
         } else {
-            return arr[topOfStack]
+            arr!![topOfStack]
         }
     }
 
@@ -113,7 +116,7 @@ class Stack(size: Int) {
     */
     fun deleteStack() {
         arr = null
-        println("The Stack is succesfully deleted!")
+        println("The stack is succesfully deleted!")
     }
 }
 
@@ -199,7 +202,7 @@ class SinglyLinkedList {
     fun searchNode(nodeValue: Int): Boolean {
         if (head != null) {
             var tempNode = head
-            for (i in 9 until size) {
+            for (i in 0 until size) {
                 if (tempNode!!.value == nodeValue) {
                     println("Found the node at location $i\n")
                     return true
@@ -248,15 +251,16 @@ class SinglyLinkedList {
     fun deleteSLL() {
         head = null
         tail = null
-        System.out.println("The SLL deleted successfully")
+        println("The SLL deleted successfully")
     }
 
 }
+
 class StackWithLinked {
-    private var linkedList: SinglyLinkedList
+    private var linkedList = SinglyLinkedList()
 
     init {
-        linkedList = SinglyLinkedList()
+        println("The stack is created")
     }
 
     /* push()
@@ -296,7 +300,11 @@ class StackWithLinked {
         space comp -> O(1)
     */
     fun peek(): Int {
-        return if (isEmpty()) { -1 } else { linkedList.head.value }
+        return if (isEmpty()) {
+            -1
+        } else {
+            linkedList.head.value
+        }
     }
 
     /* deleteStack()
@@ -338,7 +346,7 @@ Stack 3 -> [6],[7],[8]  -> [2n/3, n)
 class ThreeInOne(stackSize: Int) {
     private val numberOfStacks = 3
     private var stackCapacity = stackSize
-    private var values = intArrayOf(stackSize*numberOfStacks)
+    private var values = intArrayOf(stackSize * numberOfStacks)
     private var sizes = intArrayOf(numberOfStacks)
 
     // isFull
@@ -353,9 +361,9 @@ class ThreeInOne(stackSize: Int) {
 
     // indexOfTop - this is helper method for push, pop and peek methods
     private fun indexOfTop(stackNum: Int): Int {
-        val offset = stackNum*stackCapacity
+        val offset = stackNum * stackCapacity
         val size = sizes[stackNum]
-        return offset + size -1
+        return offset + size - 1
     }
 
     // push
